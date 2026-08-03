@@ -1,0 +1,57 @@
+\documentclass{cv_template}
+
+% Candidate Profile & Tagline
+\name{Gaurav Singh}
+\tagline{Full-Stack \& AI Software Engineer | Distributed Systems \& Machine Learning}
+
+% Set-and-Forget Links: Automatically fetches from links/
+\email
+\linkedin
+\github
+\website
+\location
+
+\begin{document}
+\begin{fitpage}
+
+% Render Header
+\makecvheader
+
+% --- Executive Summary ---
+\import{sections/}{summary.tex}
+
+% --- Technical Skills ---
+\begin{cvsection}{Technical Skills}
+    \import{sections/skills/}{languages-skills.tex}
+    \import{sections/skills/}{front-end-skills.tex}
+    \import{sections/skills/}{back-end-skills.tex}
+    \import{sections/skills/}{ai-ml-skills.tex}
+    \import{sections/skills/}{database-skills.tex}
+    \import{sections/skills/}{os-skills.tex}
+\end{cvsection}
+
+% --- Projects ---
+\begin{cvsection}{Projects}
+    \import{sections/projects/}{Aiely.tex}
+    \import{sections/projects/}{BrainScan.tex}
+    \import{sections/projects/}{f1-stratergy.tex}
+    \import{sections/projects/}{PhotoBooth.tex}
+\end{cvsection}
+
+% --- Professional Experience ---
+\begin{cvsection}{Experience}
+    \import{sections/experience/}{01-internship.tex}
+\end{cvsection}
+
+% --- Certifications ---
+\begin{cvsection}{Certifications}
+    \import{sections/}{certifications.tex}
+\end{cvsection}
+
+% --- Education ---
+\begin{cvsection}{Education}
+    \import{sections/}{education.tex}
+\end{cvsection}
+
+\end{fitpage}
+\end{document}
