@@ -54,6 +54,12 @@
   pdfborder={0 0 0}
 }
 
+% --- Minimal Underline Configuration (Subtle & ATS-Friendly) ---
+\RequirePackage[normalem]{ulem}
+\setlength{\ULdepth}{1.8pt}
+\renewcommand{\ULthickness}{0.3pt}
+\renewcommand{\underline}{\uline}
+
 % --- Section Separation Rule Toggles (Disabled for pure ATS compatibility) ---
 \newbool{drawsectionrules}
 \setbool{drawsectionrules}{false}
