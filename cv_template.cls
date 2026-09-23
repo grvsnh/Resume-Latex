@@ -74,7 +74,7 @@
   \vspace{3pt}%
 }
 \newcommand{\cvseparator}[1][0.4pt]{\cvrule[#1]}
-\renewcommand{\cvline}[1][0.4pt]{\cvrule[#1]}
+\newcommand{\cvline}[1][0.4pt]{\cvrule[#1]}
 
 % --- Set-and-Forget Auto-Fetching Contact & Profile Fields ---
 \newcommand{\@cvname}{}
@@ -196,7 +196,7 @@
   \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
   \ifbool{thissectionrule}{%
     \vspace{1.5pt}%
-    \hrule height 0.4pt\relax%
+    \noindent\rule{\textwidth}{0.4pt}\par%
     \vspace{3.5pt}%
   }{%
     \vspace{3pt}%
