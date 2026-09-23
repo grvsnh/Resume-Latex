@@ -60,13 +60,21 @@
 \renewcommand{\ULthickness}{0.3pt}
 \renewcommand{\underline}{\uline}
 
-% --- Section Separation Rule Toggles (Disabled for pure ATS compatibility) ---
+% --- Section Separation Rule Toggles & Custom Horizontal Rules ---
 \newbool{drawsectionrules}
 \setbool{drawsectionrules}{false}
 
 \newcommand{\showrules}{\setbool{drawsectionrules}{true}}
 \newcommand{\hiderules}{\setbool{drawsectionrules}{false}}
-\newcommand{\cvline}{}
+
+% Standalone custom horizontal line command with optional thickness (default: 0.4pt)
+\newcommand{\cvrule}[1][0.4pt]{%
+  \par\vspace{2pt}%
+  \noindent\rule{\textwidth}{#1}\par%
+  \vspace{3pt}%
+}
+\newcommand{\cvseparator}[1][0.4pt]{\cvrule[#1]}
+\renewcommand{\cvline}[1][0.4pt]{\cvrule[#1]}
 
 % --- Set-and-Forget Auto-Fetching Contact & Profile Fields ---
 \newcommand{\@cvname}{}
@@ -178,10 +186,21 @@
   \end{adjustbox}%
 }
 
-% --- Section Headings (Clean ATS Format) ---
+% --- Section Headings (Clean ATS Format with Optional Rules) ---
+\newbool{thissectionrule}
 \newcommand{\cvsectionheader}[2][false]{%
-  \par\vspace{8pt}%
-  {\large \bfseries \MakeUppercase{#2}}\par\vspace{3pt}%
+  \par\vspace{7pt}%
+  {\large \bfseries \MakeUppercase{#2}}\par%
+  \setbool{thissectionrule}{false}%
+  \ifstrequal{#1}{true}{\setbool{thissectionrule}{true}}{}%
+  \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
+  \ifbool{thissectionrule}{%
+    \vspace{1.5pt}%
+    \hrule height 0.4pt\relax%
+    \vspace{3.5pt}%
+  }{%
+    \vspace{3pt}%
+  }%
 }
 
 \newenvironment{cvsection}[2][false]{%

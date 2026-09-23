@@ -1,5 +1,10 @@
 \documentclass{cv_template}
 
+% --- Section Separators ---
+% Use \showrules to draw lines under section titles, or \hiderules to hide them.
+% You can also place \cvrule or \cvseparator[thickness] anywhere manually.
+\showrules
+
 % Candidate Profile & Tagline
 \name{Gaurav Singh}
 \tagline{AI Engineer | Computer Vision \& LLM Systems}
@@ -24,7 +29,9 @@
 
 % --- Education ---
 \begin{cvsection}{Education}
-    \import{sections/}{education.tex}
+    \import{sections/education/}{btech.tex}
+    \import{sections/education/}{higher_school.tex}
+    \import{sections/education/}{high_school.tex}
 \end{cvsection}
 
 % --- Technical Skills ---
@@ -49,7 +56,19 @@
 
 % --- Certifications ---
 \begin{cvsection}{Certifications}
-    \import{sections/}{certifications.tex}
+    \import{sections/certifications/}{cs50.tex}
+    \import{sections/certifications/}{nptel_cc.tex}
+    \import{sections/certifications/}{postman.tex}
+    \import{sections/certifications/}{deloitte.tex}
+    % \import{sections/certifications/}{matlab.tex}
+    % \import{sections/certifications/}{hackerrank.tex}
+\end{cvsection}
+
+% --- Leadership & Volunteering ---
+\begin{cvsection}{Leadership \& Volunteering}
+    \import{sections/misc/}{aura.tex}
+    \import{sections/misc/}{nss.tex}
+    \import{sections/misc/}{aicte.tex}
 \end{cvsection}
 
 \end{fitpage}
