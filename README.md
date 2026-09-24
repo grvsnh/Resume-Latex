@@ -1,20 +1,20 @@
 # Resume - LaTeX & CI/CD
 
-A modular, ATS-optimized single-page resume built with LaTeX and powered by GitHub Actions. Every push automatically compiles the document into a high-resolution PDF, generates a preview image, and publishes a new versioned GitHub Release.
+A modular, ATS-optimized single-page resume built with LaTeX and powered by GitHub Actions. The first line of `release-info.txt` controls the role title used for the generated release, for example `AI Engineer` produces a release named `Resume - AI Engineer`.
 
 ---
 
 ## 📄 Resume Preview
 
 <p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
+  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/resume-ai-engineer.pdf">
     <img src="resume-preview.png" alt="Gaurav Singh Resume Preview" width="800" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
-    <b>📥 Download Latest PDF (gaurav-singh.pdf)</b>
+  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/resume-ai-engineer.pdf">
+    <b>📥 Download Latest PDF (resume-ai-engineer.pdf)</b>
   </a>
   &nbsp;•&nbsp;
   <a href="https://github.com/grvsnh/Resume-Latex/releases">
@@ -31,6 +31,7 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 │   └── build-resume.yml        # CI/CD: compiles LaTeX, updates preview image, creates release
 ├── cv_template.cls             # Custom ATS-friendly LaTeX resume class & styling
 ├── resume.tex                  # Main resume entry point & section layout
+├── release-info.txt             # Release title on line 1; optional release notes below
 ├── resume-preview.png          # High-resolution rendered preview of the latest build
 ├── links/                      # Contact and social profile links
 │   ├── email.tex
@@ -129,6 +130,6 @@ git push origin main
 ```
 
 GitHub Actions will automatically:
-1. Compile your LaTeX document to `gaurav-singh.pdf` (or your configured PDF name).
+1. Compile your LaTeX document to a role-specific PDF such as `resume-ai-engineer.pdf`.
 2. Render a 300 DPI preview image (`resume-preview.png`) and update the README.
-3. Publish a new numbered GitHub Release (`v1`, `v2`, `v3`, ...) with the compiled PDF attached.
+3. Publish a new numbered GitHub Release (`v1`, `v2`, `v3`, ...) named `Resume - <title>`.
