@@ -8,3 +8,5 @@
 *.pdf
 build/
 .DS_Store
+agent.md
+__agent__/

@@ -1,13 +1,8 @@
 \documentclass{cv_template}
 
-% --- Section Separators ---
-% Use \showrules to draw lines under section titles, or \hiderules to hide them.
-% You can also place \cvrule or \cvseparator[thickness] anywhere manually.
-\showrules
-
-% Candidate Profile & Tagline
+% Candidate profile
 \name{Gaurav Singh}
-\tagline{AI Engineer | Computer Vision \& LLM Systems}
+\tagline{AI Engineer | Machine Learning, Computer Vision \& LLM Systems}
 
 % Set-and-Forget Links: Automatically fetches from links/
 \email
@@ -22,38 +17,35 @@
 % Render Header
 \makecvheader
 
-% --- Professional Summary ---
+% --- Summary ---
 \begin{cvsection}{Summary}
     \import{sections/}{summary.tex}
 \end{cvsection}
 
 % --- Technical Skills ---
 \begin{cvsection}{Technical Skills}
+    \import{sections/skills/}{languages-skills.tex}
     \import{sections/skills/}{ai-ml-skills.tex}
     \import{sections/skills/}{back-end-skills.tex}
-    \import{sections/skills/}{languages-skills.tex}
     \import{sections/skills/}{database-skills.tex}
-    \import{sections/skills/}{front-end-skills.tex}
 \end{cvsection}
 
-% --- Projects ---
-\begin{cvsection}{Projects}
+% --- Experience ---
+\begin{cvsection}{Experience}
+    \import{sections/experience/}{01-internship.tex}
+\end{cvsection}
+
+% --- Selected Projects ---
+\begin{cvsection}{Selected Projects}
     \import{sections/projects/}{Image-Colourizer.tex}
     \import{sections/projects/}{BrainScan.tex}
     \import{sections/projects/}{Aiely.tex}
     \import{sections/projects/}{f1-stratergy.tex}
 \end{cvsection}
 
-% --- Professional Experience ---
-\begin{cvsection}{Experience}
-    \import{sections/experience/}{01-internship.tex}
-\end{cvsection}
-
 % --- Education ---
 \begin{cvsection}{Education}
     \import{sections/education/}{btech.tex}
-    \import{sections/education/}{higher_school.tex}
-    \import{sections/education/}{high_school.tex}
 \end{cvsection}
 
 % --- Certifications ---
@@ -61,17 +53,10 @@
     \import{sections/certifications/}{cs50.tex}
     \import{sections/certifications/}{nptel_cc.tex}
     \import{sections/certifications/}{postman.tex}
-    \import{sections/certifications/}{deloitte.tex}
-    % \import{sections/certifications/}{matlab.tex}
-    % \import{sections/certifications/}{hackerrank.tex}
 \end{cvsection}
 
-% --- Leadership & Volunteering ---
-\begin{cvsection}{Leadership \& Volunteering}
-    \import{sections/misc/}{aura.tex}
-    \import{sections/misc/}{nss.tex}
-    \import{sections/misc/}{aicte.tex}
-\end{cvsection}
+% Other education, frontend, certification, and volunteering modules remain
+% available in sections/; select imports here when tailoring to another role.
 
 \end{fitpage}
 \end{document}

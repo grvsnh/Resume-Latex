@@ -1,0 +1,7 @@
+First polished one-page AI Engineer resume.
+
+Focus areas:
+- Machine learning, deep learning, computer vision, and LLM applications
+- Python, PyTorch, TensorFlow, TensorFlow.js, OpenCV, FastAPI, and OpenRouter API
+- Selected projects in image colorization, medical imaging, desktop AI assistants, and telemetry analytics
+- ATS-friendly LaTeX layout with modular resume sections and selectable text

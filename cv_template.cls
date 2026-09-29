@@ -7,8 +7,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{cv_template}[2026/07/23 Modular Black & White Single-Page Resume Class]
 
-% Base Document Class: Letter size with 10pt base font
-\LoadClass[10pt, a4paper]{article}
+% A4 with readable 11pt body text; fit content by editing, never by scaling.
+\LoadClass[11pt, a4paper]{article}
 
 % --- Engine Detection & Font Setup ---
 \RequirePackage{iftex}
@@ -24,6 +24,13 @@
   \RequirePackage[utf8]{inputenc}
   \RequirePackage{lmodern}
 \fi\fi
+\renewcommand{\familydefault}{\sfdefault}
+
+% Explicit Unicode mapping for reliable PDF copy/paste and text extraction.
+\ifPDFTeX
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
 
 % --- Core Utility & Formatting Packages ---
 \RequirePackage{geometry}    % Page margins and dimensions
@@ -32,26 +39,30 @@
 \RequirePackage{import}      % Modular file imports
 \RequirePackage{etoolbox}    % TeX conditional logic & list helpers
 \RequirePackage{catchfile}   % Reading external text files into macros
-\RequirePackage{parskip}     % Paragraph spacing management
-\RequirePackage{adjustbox}   % Dynamic box scaling for 1-page fitting
-
-% Optional FontAwesome icons support
-\RequirePackage{fontawesome5}
 
 % --- Single-Page Geometry Parameters ---
 \geometry{
-  top=0.35in,
-  bottom=0.35in,
-  left=0.45in,
-  right=0.45in
+  a4paper,
+  top=0.5in,
+  bottom=0.5in,
+  left=0.55in,
+  right=0.55in
 }
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
 
 \pagestyle{empty}
 
 % --- Pure Black & White Link Styling (ATS Compliant) ---
 \hypersetup{
   hidelinks,
-  pdfborder={0 0 0}
+  pdfborder={0 0 0},
+  unicode=true
+}
+\AtBeginDocument{%
+  \raggedright
+  \hypersetup{pdfauthor={\@cvname}, pdftitle={\@cvname\space - AI Engineer Resume}}%
 }
 
 % --- Minimal Underline Configuration (Subtle & ATS-Friendly) ---
@@ -152,70 +163,69 @@
 
 % --- Clean Candidate Header Renderer ---
 \newcommand{\makecvheader}{%
-  \begin{center}
-    {\Huge \bfseries \@cvname}\par
+  {\centering
+    {\fontsize{23}{27}\selectfont\bfseries \@cvname}\par
     \ifcsempty{@cvtagline}{}{%
       \vspace{2pt}%
-      {\small \itshape \@cvtagline}\par
+      {\normalsize \@cvtagline}\par
     }%
-    \setbool{firstcontact}{true}%
     \def\printitem##1{%
-      \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\ \ \textbar\ \ }##1%
+      \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\enspace\textbar\enspace}##1%
     }%
-    \vspace{3pt}%
-    {\footnotesize%
-      \ifcsempty{@cvphone}{}{\printitem{\@cvphone}}%
+    \vspace{4pt}%
+    {\footnotesize
+      \setbool{firstcontact}{true}%
+      \ifcsempty{@cvlocation}{}{\printitem{\@cvlocation}}%
       \ifcsempty{@cvemail}{}{\printitem{\href{mailto:\@cvemail}{\@cvemail}}}%
+      \ifcsempty{@cvphone}{}{\printitem{\@cvphone}}%
       \ifcsempty{@cvlinkedin}{}{\printitem{\href{https://linkedin.com/in/\@cvlinkedin}{linkedin.com/in/\@cvlinkedin}}}%
       \ifcsempty{@cvgithub}{}{\printitem{\href{https://github.com/\@cvgithub}{github.com/\@cvgithub}}}%
       \ifcsempty{@cvwebsite}{}{\printitem{\href{https://\@cvwebsite}{\@cvwebsite}}}%
-      \ifcsempty{@cvlocation}{}{\printitem{\@cvlocation}}%
       \ifcsempty{@customcontacts}{}{\printitem{\@customcontacts}}%
-    }\par
-  \end{center}%
+      \par
+    }%
+  }%
   \vspace{2pt}%
 }
 
-% --- Dynamic 1-Page Auto-Fitting Wrapper Environment ---
+% --- Single-Page Document Wrapper Environment ---
 \newenvironment{fitpage}{%
-  \clearpage
-  \begin{adjustbox}{max totalheight=\textheight, max width=\textwidth, keepaspectratio}%
-    \begin{minipage}{\textwidth}%
+  \pagestyle{empty}%
+  \raggedbottom
 }{%
-    \end{minipage}%
-  \end{adjustbox}%
 }
 
 % --- Section Headings (Clean ATS Format with Optional Rules) ---
 \newbool{thissectionrule}
 \newcommand{\cvsectionheader}[2][false]{%
   \par\vspace{7pt}%
-  {\large \bfseries \MakeUppercase{#2}}\par%
+  {\normalsize \bfseries #2}\par%
   \setbool{thissectionrule}{false}%
   \ifstrequal{#1}{true}{\setbool{thissectionrule}{true}}{}%
   \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
   \ifbool{thissectionrule}{%
     \vspace{1.5pt}%
-    \noindent\rule{\textwidth}{0.5pt}\par%
-    \vspace{3.5pt}%
-  }{%
+    \noindent\rule{\textwidth}{0.3pt}\par%
     \vspace{3pt}%
+  }{%
+    \vspace{2pt}%
   }%
 }
 
 \newenvironment{cvsection}[2][false]{%
   \cvsectionheader[#1]{#2}%
 }{%
-  \vspace{2pt}%
+  \vspace{1.5pt}%
 }
 
 % --- Bullet Item List ---
 \newenvironment{cvlist}{%
   \begin{itemize}[
     leftmargin=12pt,
-    itemsep=1pt,
+    rightmargin=0pt,
+    itemsep=2pt,
     parsep=0pt,
-    topsep=1pt,
+    topsep=2pt,
     partopsep=0pt,
     label=\small\textbullet
   ]%
@@ -224,41 +234,30 @@
 }
 
 % --- Experience & Education Entry Environments ---
+% Plain paragraphs keep headings in logical reading order (no layout tables).
 \newenvironment{cventry}[4]{%
-  \vspace{2pt}%
-  \noindent
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r @{}}
-    \textbf{#1} & \textit{#4} \\
-    \textit{#2} & \textit{#3} \\
-  \end{tabular*}\par
-  \vspace{-2pt}%
+  \par\vspace{2pt}%
+  \textbf{#1} \textnormal{\textbar\ #4}\par\nopagebreak
+  #2\enspace\textbar\enspace #3\par\nopagebreak
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cventrysimple}[4]{%
-  \vspace{2pt}%
-  \noindent
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r @{}}
-    \textbf{#1} & \textit{#4} \\
-    \textit{#2} & \textit{#3} \\
-  \end{tabular*}\par
-  \vspace{1pt}%
+  \par\vspace{2pt}%
+  \textbf{#1} \textnormal{\textbar\ #4}\par\nopagebreak
+  #2\enspace\textbar\enspace #3\par
 }
 
 \newenvironment{cvproject}[2]{%
-  \vspace{2pt}%
-  \noindent
-  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r @{}}
-    \textbf{#1} & \textit{#2} \\
-  \end{tabular*}\par
-  \vspace{-2pt}%
+  \par\vspace{4pt}%
+  \textbf{#1}\ifstrempty{#2}{}{\textnormal{\textbar\ #2}}\par\nopagebreak
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cvskill}[2]{%
-  \noindent\textbf{#1:} #2\par\vspace{2pt}%
+  \noindent\textbf{#1:} #2\par\vspace{1.5pt}%
 }
