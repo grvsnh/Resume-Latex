@@ -11,6 +11,7 @@ on:
       - 'links/**'
       - 'sections/**'
       - 'release-info.txt'
+      - 'release-body.txt'
       - '.github/workflows/build-resume.yml'
   workflow_dispatch:
 
@@ -37,13 +38,41 @@ jobs:
         id: release_meta
         shell: bash
         run: |
-          TITLE="$(sed -n '1p' release-info.txt | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
-          if [ -z "$TITLE" ]; then
-            echo "::error::The first line of release-info.txt must contain the resume title."
-            exit 1
+          INFO_FILE=""
+          for f in release-info.txt release_info.txt release-info release_info; do
+            if [ -f "$f" ]; then
+              INFO_FILE="$f"
+              break
+            fi
+          done
+
+          TITLE=""
+          if [ -n "$INFO_FILE" ]; then
+            TITLE="$(sed -n '1p' "$INFO_FILE" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
           fi
-          BODY="$(tail -n +2 release-info.txt)"
+          if [ -z "$TITLE" ]; then
+            TITLE="AI Engineer"
+          fi
+
+          BODY_FILE=""
+          for f in release-body.txt release_body.txt release-body release_body; do
+            if [ -f "$f" ] && [ -s "$f" ]; then
+              BODY_FILE="$f"
+              break
+            fi
+          done
+
+          if [ -n "$BODY_FILE" ]; then
+            BODY="$(cat "$BODY_FILE")"
+          elif [ -n "$INFO_FILE" ]; then
+            BODY="$(tail -n +2 "$INFO_FILE")"
+          else
+            BODY=""
+          fi
+
           SLUG="$(printf '%s' "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//; s/-$//')"
+          [ -z "$SLUG" ] && SLUG="ai-engineer"
+
           echo "title=$TITLE" >> "$GITHUB_OUTPUT"
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
           {

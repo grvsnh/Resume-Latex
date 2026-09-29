@@ -31,7 +31,8 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 │   └── build-resume.yml        # CI/CD: compiles LaTeX, updates preview image, creates release
 ├── cv_template.cls             # Custom ATS-friendly LaTeX resume class & styling
 ├── resume.tex                  # Main resume entry point & section layout
-├── release-info.txt             # Release title on line 1; optional release notes below
+├── release-info.txt             # Release title on line 1 (e.g. AI Engineer)
+├── release-body.txt             # (Optional) Release notes / description body
 ├── resume-preview.png          # High-resolution rendered preview of the latest build
 ├── links/                      # Contact and social profile links
 │   ├── email.tex
@@ -41,24 +42,33 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 │   ├── phone.tex
 │   └── website.tex
 └── sections/                   # Modular resume content
-    ├── certifications.tex      # Certifications with clickable company links
-    ├── education.tex           # Academic degrees & institutions
-    ├── summary.tex             # Executive summary (optional)
+    ├── summary.tex             # Professional executive summary
+    ├── certifications/         # Individual certification entries (CS50, NPTEL, Postman, etc.)
+    │   ├── cs50.tex
+    │   ├── nptel_cc.tex
+    │   ├── postman.tex
+    │   └── deloitte.tex
+    ├── education/              # Academic degrees & schooling (btech, higher_school, high_school)
+    │   ├── btech.tex
+    │   ├── higher_school.tex
+    │   └── high_school.tex
     ├── experience/             # Work & internship experiences
     │   └── 01-internship.tex
+    ├── misc/                   # Leadership, volunteering & outreach
+    │   ├── aura.tex
+    │   ├── nss.tex
+    │   └── aicte.tex
     ├── projects/               # Individual modular project descriptions
-    │   ├── Aiely.tex
+    │   ├── Image-Colourizer.tex
     │   ├── BrainScan.tex
-    │   ├── f1-stratergy.tex
-    │   ├── PhotoBooth.tex
-    │   └── ...
+    │   ├── Aiely.tex
+    │   └── f1-stratergy.tex
     └── skills/                 # Categorized technical skill sets
         ├── ai-ml-skills.tex
         ├── back-end-skills.tex
         ├── database-skills.tex
         ├── front-end-skills.tex
-        ├── languages-skills.tex
-        └── os-skills.tex
+        └── languages-skills.tex
 ```
 
 ---

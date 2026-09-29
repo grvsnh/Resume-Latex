@@ -67,14 +67,14 @@
 \newcommand{\showrules}{\setbool{drawsectionrules}{true}}
 \newcommand{\hiderules}{\setbool{drawsectionrules}{false}}
 
-% Standalone custom horizontal line command with optional thickness (default: 0.4pt)
-\newcommand{\cvrule}[1][0.4pt]{%
+% Standalone custom horizontal line command with optional thickness (default: 0.5pt)
+\newcommand{\cvrule}[1][0.5pt]{%
   \par\vspace{2pt}%
   \noindent\rule{\textwidth}{#1}\par%
   \vspace{3pt}%
 }
-\newcommand{\cvseparator}[1][0.4pt]{\cvrule[#1]}
-\newcommand{\cvline}[1][0.4pt]{\cvrule[#1]}
+\newcommand{\cvseparator}[1][0.5pt]{\cvrule[#1]}
+\newcommand{\cvline}[1][0.5pt]{\cvrule[#1]}
 
 % --- Set-and-Forget Auto-Fetching Contact & Profile Fields ---
 \newcommand{\@cvname}{}
@@ -196,7 +196,7 @@
   \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
   \ifbool{thissectionrule}{%
     \vspace{1.5pt}%
-    \noindent\rule{\textwidth}{0.4pt}\par%
+    \noindent\rule{\textwidth}{0.5pt}\par%
     \vspace{3.5pt}%
   }{%
     \vspace{3pt}%
