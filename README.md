@@ -7,14 +7,14 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 ## 📄 Resume Preview
 
 <p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/resume-ai-engineer.pdf">
+  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
     <img src="resume-preview.png?v=1791299937" alt="Gaurav Singh Resume Preview" width="800" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/resume-ai-engineer.pdf">
-    <b>📥 Download Latest PDF (resume-ai-engineer.pdf)</b>
+  <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
+    <b>📥 Download Latest PDF (gaurav-singh.pdf)</b>
   </a>
   &nbsp;•&nbsp;
   <a href="https://github.com/grvsnh/Resume-Latex/releases">
@@ -140,6 +140,6 @@ git push origin main
 ```
 
 GitHub Actions will automatically:
-1. Compile your LaTeX document to a role-specific PDF such as `resume-ai-engineer.pdf`.
-2. Render a 300 DPI preview image (`resume-preview.png?v=1791299937`) and update the README.
+1. Compile your LaTeX document to `gaurav-singh.pdf`.
+2. Render a 300 DPI preview image (`resume-preview.png`) and update the README.
 3. Publish a new numbered GitHub Release (`v1`, `v2`, `v3`, ...) named `Resume - <title>`.

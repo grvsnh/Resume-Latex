@@ -82,7 +82,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Prepare Named Resume PDF
-        run: cp resume.pdf "resume-${{ steps.release_meta.outputs.slug }}.pdf"
+        run: cp resume.pdf gaurav-singh.pdf
 
       - name: Verify Single-Page and Generate Preview
         run: |
@@ -112,8 +112,8 @@ jobs:
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: resume-${{ steps.release_meta.outputs.slug }}
-          path: resume-${{ steps.release_meta.outputs.slug }}.pdf
+          name: gaurav-singh-pdf
+          path: gaurav-singh.pdf
           overwrite: true
 
       - name: Generate Release Tag
@@ -146,7 +146,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            resume-${{ steps.release_meta.outputs.slug }}.pdf
+            gaurav-singh.pdf
             resume-preview.png
           make_latest: true
         env:
