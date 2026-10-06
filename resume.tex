@@ -1,6 +1,10 @@
 \documentclass{cv_template}
 
-% Candidate profile
+% --- Section Separators ---
+% Use \showrules to draw lines under section titles, or \hiderules to hide them.
+\showrules
+
+% Candidate Profile & Tagline
 \name{Gaurav Singh}
 \tagline{AI Engineer | Machine Learning, Computer Vision \& LLM Systems}
 
@@ -17,35 +21,37 @@
 % Render Header
 \makecvheader
 
-% --- Summary ---
+% --- Professional Summary ---
 \begin{cvsection}{Summary}
     \import{sections/}{summary.tex}
 \end{cvsection}
 
 % --- Technical Skills ---
 \begin{cvsection}{Technical Skills}
-    \import{sections/skills/}{languages-skills.tex}
     \import{sections/skills/}{ai-ml-skills.tex}
     \import{sections/skills/}{back-end-skills.tex}
+    \import{sections/skills/}{languages-skills.tex}
     \import{sections/skills/}{database-skills.tex}
 \end{cvsection}
 
-% --- Experience ---
-\begin{cvsection}{Experience}
-    \import{sections/experience/}{01-internship.tex}
-\end{cvsection}
-
-% --- Selected Projects ---
-\begin{cvsection}{Selected Projects}
+% --- Projects ---
+\begin{cvsection}{Projects}
     \import{sections/projects/}{Image-Colourizer.tex}
     \import{sections/projects/}{BrainScan.tex}
     \import{sections/projects/}{Aiely.tex}
     \import{sections/projects/}{f1-stratergy.tex}
 \end{cvsection}
 
+% --- Professional Experience ---
+\begin{cvsection}{Experience}
+    \import{sections/experience/}{01-internship.tex}
+\end{cvsection}
+
 % --- Education ---
 \begin{cvsection}{Education}
     \import{sections/education/}{btech.tex}
+    \import{sections/education/}{higher_school.tex}
+    \import{sections/education/}{high_school.tex}
 \end{cvsection}
 
 % --- Certifications ---
@@ -53,11 +59,15 @@
     \import{sections/certifications/}{cs50.tex}
     \import{sections/certifications/}{nptel_cc.tex}
     \import{sections/certifications/}{postman.tex}
+    \import{sections/certifications/}{deloitte.tex}
 \end{cvsection}
 
-% Other education, frontend, certification, and volunteering modules remain
-% available in sections/; select imports here when tailoring to another role.
+% --- Leadership & Volunteering ---
+\begin{cvsection}{Leadership \& Volunteering}
+    \import{sections/misc/}{aura.tex}
+    \import{sections/misc/}{nss.tex}
+    \import{sections/misc/}{aicte.tex}
+\end{cvsection}
 
 \end{fitpage}
 \end{document}
-

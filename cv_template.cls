@@ -5,10 +5,10 @@
 % =============================================================================
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cv_template}[2026/07/23 Modular Black & White Single-Page Resume Class]
+\ProvidesClass{cv_template}[2026/10/06 Modular ATS-Optimized Single-Page Resume Class]
 
-% A4 with readable 11pt body text; fit content by editing, never by scaling.
-\LoadClass[11pt, a4paper]{article}
+% Base Document Class: 10pt base font on A4 paper
+\LoadClass[10pt, a4paper]{article}
 
 % --- Engine Detection & Font Setup ---
 \RequirePackage{iftex}
@@ -24,9 +24,8 @@
   \RequirePackage[utf8]{inputenc}
   \RequirePackage{lmodern}
 \fi\fi
-\renewcommand{\familydefault}{\sfdefault}
 
-% Explicit Unicode mapping for reliable PDF copy/paste and text extraction.
+% Explicit Unicode mapping for reliable PDF copy/paste and text extraction
 \ifPDFTeX
   \input{glyphtounicode}
   \pdfgentounicode=1
@@ -40,13 +39,13 @@
 \RequirePackage{etoolbox}    % TeX conditional logic & list helpers
 \RequirePackage{catchfile}   % Reading external text files into macros
 
-% --- Single-Page Geometry Parameters ---
+% --- Single-Page Geometry Parameters (Balanced Full-Page A4) ---
 \geometry{
   a4paper,
-  top=0.5in,
-  bottom=0.5in,
-  left=0.55in,
-  right=0.55in
+  top=0.28in,
+  bottom=0.28in,
+  left=0.45in,
+  right=0.45in
 }
 
 \setlength{\parindent}{0pt}
@@ -61,28 +60,27 @@
   unicode=true
 }
 \AtBeginDocument{%
-  \raggedright
   \hypersetup{pdfauthor={\@cvname}, pdftitle={\@cvname\space - AI Engineer Resume}}%
 }
 
 % --- Minimal Underline Configuration (Subtle & ATS-Friendly) ---
 \RequirePackage[normalem]{ulem}
 \setlength{\ULdepth}{1.8pt}
-\renewcommand{\ULthickness}{0.3pt}
+\renewcommand{\ULthickness}{0.35pt}
 \renewcommand{\underline}{\uline}
 
 % --- Section Separation Rule Toggles & Custom Horizontal Rules ---
 \newbool{drawsectionrules}
-\setbool{drawsectionrules}{false}
+\setbool{drawsectionrules}{true}
 
 \newcommand{\showrules}{\setbool{drawsectionrules}{true}}
 \newcommand{\hiderules}{\setbool{drawsectionrules}{false}}
 
-% Standalone custom horizontal line command with optional thickness (default: 0.5pt)
+% Standalone custom horizontal line command spanning full textwidth
 \newcommand{\cvrule}[1][0.5pt]{%
-  \par\vspace{2pt}%
+  \vspace{1.5pt}%
   \noindent\rule{\textwidth}{#1}\par%
-  \vspace{3pt}%
+  \vspace{1.5pt}%
 }
 \newcommand{\cvseparator}[1][0.5pt]{\cvrule[#1]}
 \newcommand{\cvline}[1][0.5pt]{\cvrule[#1]}
@@ -101,7 +99,6 @@
 \newcommand{\name}[1]{\renewcommand{\@cvname}{#1}}
 \newcommand{\tagline}[1]{\renewcommand{\@cvtagline}{#1}}
 
-% Parameterless link macros: Auto-fetches text from links/<field>.tex if no argument is passed!
 \newcommand{\phone}[1][]{%
   \ifstrempty{#1}{%
     \IfFileExists{links/phone.tex}{\CatchFileDef{\@cvphone}{links/phone.tex}{\endlinechar=-1}}{}%
@@ -154,7 +151,7 @@
   \ifdefempty{\@customcontacts}{%
     \gappto\@customcontacts{#1}%
   }{%
-    \gappto\@customcontacts{\ \ \textbar\ \ #1}%
+    \gappto\@customcontacts{\enspace\textbar\enspace #1}%
   }%
 }
 \newcommand{\addcontactlink}[2]{\addcontact{\href{#2}{#1}}}
@@ -163,29 +160,29 @@
 
 % --- Clean Candidate Header Renderer ---
 \newcommand{\makecvheader}{%
-  {\centering
-    {\fontsize{23}{27}\selectfont\bfseries \@cvname}\par
+  \begin{center}
+    {\fontsize{19}{23}\selectfont\bfseries \@cvname}\par
     \ifcsempty{@cvtagline}{}{%
-      \vspace{2pt}%
-      {\normalsize \@cvtagline}\par
+      \vspace{1.5pt}%
+      {\small \itshape \@cvtagline}\par
     }%
-    \def\printitem##1{%
-      \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\enspace\textbar\enspace}##1%
-    }%
-    \vspace{4pt}%
+    \vspace{2pt}%
     {\footnotesize
       \setbool{firstcontact}{true}%
-      \ifcsempty{@cvlocation}{}{\printitem{\@cvlocation}}%
+      \def\printitem##1{%
+        \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\enspace\textbar\enspace}##1%
+      }%
       \ifcsempty{@cvemail}{}{\printitem{\href{mailto:\@cvemail}{\@cvemail}}}%
-      \ifcsempty{@cvphone}{}{\printitem{\@cvphone}}%
       \ifcsempty{@cvlinkedin}{}{\printitem{\href{https://linkedin.com/in/\@cvlinkedin}{linkedin.com/in/\@cvlinkedin}}}%
       \ifcsempty{@cvgithub}{}{\printitem{\href{https://github.com/\@cvgithub}{github.com/\@cvgithub}}}%
       \ifcsempty{@cvwebsite}{}{\printitem{\href{https://\@cvwebsite}{\@cvwebsite}}}%
+      \ifcsempty{@cvlocation}{}{\printitem{\@cvlocation}}%
+      \ifcsempty{@cvphone}{}{\printitem{\@cvphone}}%
       \ifcsempty{@customcontacts}{}{\printitem{\@customcontacts}}%
       \par
     }%
-  }%
-  \vspace{2pt}%
+  \end{center}%
+  \vspace{0.5pt}%
 }
 
 % --- Single-Page Document Wrapper Environment ---
@@ -195,37 +192,37 @@
 }{%
 }
 
-% --- Section Headings (Clean ATS Format with Optional Rules) ---
+% --- Section Headings (Full-Width ATS Format with Rules) ---
 \newbool{thissectionrule}
 \newcommand{\cvsectionheader}[2][false]{%
-  \par\vspace{7pt}%
-  {\normalsize \bfseries #2}\par%
+  \vspace{3.5pt}%
+  {\large \bfseries \MakeUppercase{#2}}\par\nopagebreak
   \setbool{thissectionrule}{false}%
   \ifstrequal{#1}{true}{\setbool{thissectionrule}{true}}{}%
   \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
   \ifbool{thissectionrule}{%
-    \vspace{1.5pt}%
-    \noindent\rule{\textwidth}{0.3pt}\par%
-    \vspace{3pt}%
+    \vspace{1.2pt}%
+    \hrule height 0.5pt width \textwidth\relax\nopagebreak
+    \vspace{2.2pt}%
   }{%
-    \vspace{2pt}%
+    \vspace{1.8pt}%
   }%
 }
 
 \newenvironment{cvsection}[2][false]{%
   \cvsectionheader[#1]{#2}%
 }{%
-  \vspace{1.5pt}%
+  \vspace{1.2pt}%
 }
 
-% --- Bullet Item List ---
+% --- Bullet Item List (Full Textwidth Spanning) ---
 \newenvironment{cvlist}{%
   \begin{itemize}[
-    leftmargin=12pt,
+    leftmargin=11pt,
     rightmargin=0pt,
-    itemsep=2pt,
+    itemsep=0.4pt,
     parsep=0pt,
-    topsep=2pt,
+    topsep=0.8pt,
     partopsep=0pt,
     label=\small\textbullet
   ]%
@@ -233,31 +230,32 @@
   \end{itemize}%
 }
 
-% --- Experience & Education Entry Environments ---
-% Plain paragraphs keep headings in logical reading order (no layout tables).
+% --- Experience & Project Entries (Full-Width \hfill Alignment) ---
 \newenvironment{cventry}[4]{%
-  \par\vspace{2pt}%
-  \textbf{#1} \textnormal{\textbar\ #4}\par\nopagebreak
-  #2\enspace\textbar\enspace #3\par\nopagebreak
+  \vspace{1.2pt}%
+  \noindent\textbf{#1} \hfill \textit{#4}\par\nopagebreak
+  \noindent\textit{#2} \hfill \textit{#3}\par\nopagebreak
+  \vspace{-1.5pt}%
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cventrysimple}[4]{%
-  \par\vspace{2pt}%
-  \textbf{#1} \textnormal{\textbar\ #4}\par\nopagebreak
-  #2\enspace\textbar\enspace #3\par
+  \vspace{1pt}%
+  \noindent\textbf{#1} \hfill \textit{#4}\par\nopagebreak
+  \noindent\textit{#2} \hfill \textit{#3}\par
 }
 
 \newenvironment{cvproject}[2]{%
-  \par\vspace{4pt}%
-  \textbf{#1}\ifstrempty{#2}{}{\textnormal{\textbar\ #2}}\par\nopagebreak
+  \vspace{1.5pt}%
+  \noindent\textbf{#1} \hfill \textit{#2}\par\nopagebreak
+  \vspace{-1.5pt}%
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cvskill}[2]{%
-  \noindent\textbf{#1:} #2\par\vspace{1.5pt}%
+  \noindent\textbf{#1:} #2\par\vspace{1pt}%
 }

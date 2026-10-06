@@ -84,20 +84,28 @@ jobs:
       - name: Prepare Named Resume PDF
         run: cp resume.pdf "resume-${{ steps.release_meta.outputs.slug }}.pdf"
 
-      - name: Generate High-Resolution Resume Preview Image
+      - name: Verify Single-Page and Generate Preview
         run: |
           sudo apt-get update && sudo apt-get install -y poppler-utils
+          PAGE_COUNT=$(pdfinfo resume.pdf | awk '/^Pages:/ {print $2}')
+          echo "Detected page count: $PAGE_COUNT"
+          if [ "$PAGE_COUNT" -ne 1 ]; then
+            echo "::error::Resume compilation resulted in $PAGE_COUNT pages. Expected exactly 1 page!"
+            exit 1
+          fi
           pdftoppm -png -r 300 -singlefile resume.pdf resume-preview
 
-      - name: Commit and Push Resume Preview Image
+      - name: Commit and Push Resume Preview Image & Update README
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add resume-preview.png
+          TIMESTAMP=$(date +%s)
+          sed -i -E "s|resume-preview\.png(\?[^\"']*)?|resume-preview.png?v=${TIMESTAMP}|g" README.md
+          git add resume-preview.png README.md
           if git diff --staged --quiet; then
-            echo "No changes to resume preview image."
+            echo "No changes to resume preview image or README."
           else
-            git commit -m "chore: update resume preview image [skip ci]"
+            git commit -m "chore: update resume preview image and README [skip ci]"
             git push
           fi
 

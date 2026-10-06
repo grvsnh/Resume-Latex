@@ -8,7 +8,7 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 
 <p align="center">
   <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/resume-ai-engineer.pdf">
-    <img src="resume-preview.png" alt="Gaurav Singh Resume Preview" width="800" />
+    <img src="resume-preview.png?raw=true" alt="Gaurav Singh Resume Preview" width="800" />
   </a>
 </p>
 
