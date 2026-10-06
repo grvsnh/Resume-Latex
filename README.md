@@ -33,7 +33,7 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 ├── resume.tex                  # Main resume entry point & section layout
 ├── release-info.txt             # Release title on line 1 (e.g. AI Engineer)
 ├── release-body.txt             # (Optional) Release notes / description body
-├── resume-preview.png?v=1791299937          # High-resolution rendered preview of the latest build
+├── resume-preview.png          # High-resolution rendered preview of the latest build
 ├── links/                      # Contact and social profile links
 │   ├── email.tex
 │   ├── github.tex

@@ -100,7 +100,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           TIMESTAMP=$(date +%s)
-          sed -i -E "s|resume-preview\.png(\?[^\"']*)?|resume-preview.png?v=${TIMESTAMP}|g" README.md
+          sed -i -E "s|(<img[^>]*src=[\"'])resume-preview\.png(\?[^\"']*)?([\"'])|\1resume-preview.png?v=${TIMESTAMP}\3|g" README.md
           git add resume-preview.png README.md
           if git diff --staged --quiet; then
             echo "No changes to resume preview image or README."
