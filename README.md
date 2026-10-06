@@ -8,7 +8,7 @@ A modular, ATS-optimized single-page resume built with LaTeX and powered by GitH
 
 <p align="center">
   <a href="https://github.com/grvsnh/Resume-Latex/releases/latest/download/gaurav-singh.pdf">
-    <img src="resume-preview.png?v=1791299937" alt="Gaurav Singh Resume Preview" width="800" />
+    <img src="resume-preview.png?v=1791300636" alt="Gaurav Singh Resume Preview" width="800" />
   </a>
 </p>
 
