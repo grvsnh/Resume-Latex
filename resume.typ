@@ -16,24 +16,24 @@
 )
 #set par(
   justify: false,
-  leading: 0.58em,
+  leading: 0.6em,
   spacing: 3pt,
 )
 #set block(above: 2pt, below: 2pt)
 #set heading(numbering: none)
-#set list(indent: 0pt, body-indent: 10pt, spacing: 3pt)
+#set list(indent: 0pt, body-indent: 11pt, spacing: 3pt)
 
 #show link: set text(fill: black)
-#show heading.where(level: 2): set text(size: 11pt, weight: "bold", tracking: 0.04em)
+#show heading.where(level: 2): set text(size: 11.5pt, weight: "bold", tracking: 0.04em)
 #show heading.where(level: 2): set block(
   above: 8pt,
-  below: 6pt,
+  below: 5pt,
   width: 100%,
-  inset: (bottom: 5pt),
+  inset: (bottom: 4pt),
   stroke: (bottom: 0.5pt),
 )
 #show list: set list(tight: false)
-#show list: set block(above: 4pt, below: 0pt)
+#show list: set block(above: 3pt, below: 0pt)
 
 #let name = "Gaurav Singh"
 #let role = read("release-info.txt").split("\n").at(0).trim()
@@ -45,12 +45,13 @@
 )
 
 #align(center)[
-  #text(size: 20pt, weight: "bold")[#name]
+  #text(size: 22pt, weight: "bold")[#name]
+  #v(5pt)
+  #text(size: 10.5pt, weight: "bold")[#role]
+  #text(size: 10.5pt)[ | #focus]
   #v(4pt)
-  #text(size: 9.5pt)[#role | #focus]
-  #v(3pt)
-  #text(size: 8.2pt)[
-    #location \
+  #text(size: 8.1pt)[
+    #location ·
     #link("mailto:" + email)[#email] ·
     #link("https://linkedin.com/in/" + linkedin)[linkedin.com/in/#linkedin] ·
     #link("https://github.com/" + github)[github.com/#github] ·
@@ -68,14 +69,14 @@
 #include "sections/skills/languages.typ"
 #include "sections/skills/database.typ"
 
-== PROFESSIONAL EXPERIENCE
-#include "sections/experience/internship.typ"
-
 == PROJECTS
 #include "sections/projects/image-colorization.typ"
 #include "sections/projects/brainscan.typ"
 #include "sections/projects/aiely.typ"
 #include "sections/projects/f1-strategy.typ"
+
+== EXPERIENCE
+#include "sections/experience/internship.typ"
 
 == EDUCATION
 #include "sections/education/btech.typ"
