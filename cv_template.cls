@@ -39,13 +39,13 @@
 \RequirePackage{etoolbox}    % TeX conditional logic & list helpers
 \RequirePackage{catchfile}   % Reading external text files into macros
 
-% --- Single-Page Geometry Parameters (Balanced Full-Page A4) ---
+% --- Single-Page Geometry Parameters (Balanced & Elegant Full-Page A4) ---
 \geometry{
   a4paper,
-  top=0.28in,
-  bottom=0.28in,
-  left=0.45in,
-  right=0.45in
+  top=0.38in,
+  bottom=0.38in,
+  left=0.48in,
+  right=0.48in
 }
 
 \setlength{\parindent}{0pt}
@@ -77,13 +77,13 @@
 \newcommand{\hiderules}{\setbool{drawsectionrules}{false}}
 
 % Standalone custom horizontal line command spanning full textwidth
-\newcommand{\cvrule}[1][0.5pt]{%
-  \vspace{1.5pt}%
+\newcommand{\cvrule}[1][0.55pt]{%
+  \vspace{2pt}%
   \noindent\rule{\textwidth}{#1}\par%
-  \vspace{1.5pt}%
+  \vspace{2pt}%
 }
-\newcommand{\cvseparator}[1][0.5pt]{\cvrule[#1]}
-\newcommand{\cvline}[1][0.5pt]{\cvrule[#1]}
+\newcommand{\cvseparator}[1][0.55pt]{\cvrule[#1]}
+\newcommand{\cvline}[1][0.55pt]{\cvrule[#1]}
 
 % --- Set-and-Forget Auto-Fetching Contact & Profile Fields ---
 \newcommand{\@cvname}{}
@@ -161,16 +161,16 @@
 % --- Clean Candidate Header Renderer ---
 \newcommand{\makecvheader}{%
   \begin{center}
-    {\fontsize{19}{23}\selectfont\bfseries \@cvname}\par
+    {\fontsize{21}{25}\selectfont\bfseries \@cvname}\par
     \ifcsempty{@cvtagline}{}{%
-      \vspace{1.5pt}%
-      {\small \itshape \@cvtagline}\par
+      \vspace{2.5pt}%
+      {\small \@cvtagline}\par
     }%
-    \vspace{2pt}%
+    \vspace{3.5pt}%
     {\footnotesize
       \setbool{firstcontact}{true}%
       \def\printitem##1{%
-        \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\enspace\textbar\enspace}##1%
+        \ifbool{firstcontact}{\setbool{firstcontact}{false}}{\hspace{5pt}\textbar\hspace{5pt}}##1%
       }%
       \ifcsempty{@cvemail}{}{\printitem{\href{mailto:\@cvemail}{\@cvemail}}}%
       \ifcsempty{@cvlinkedin}{}{\printitem{\href{https://linkedin.com/in/\@cvlinkedin}{linkedin.com/in/\@cvlinkedin}}}%
@@ -182,7 +182,7 @@
       \par
     }%
   \end{center}%
-  \vspace{0.5pt}%
+  \vspace{-2pt}%
 }
 
 % --- Single-Page Document Wrapper Environment ---
@@ -195,34 +195,34 @@
 % --- Section Headings (Full-Width ATS Format with Rules) ---
 \newbool{thissectionrule}
 \newcommand{\cvsectionheader}[2][false]{%
-  \vspace{3.5pt}%
+  \vspace{7pt}%
   {\large \bfseries \MakeUppercase{#2}}\par\nopagebreak
   \setbool{thissectionrule}{false}%
   \ifstrequal{#1}{true}{\setbool{thissectionrule}{true}}{}%
   \ifbool{drawsectionrules}{\setbool{thissectionrule}{true}}{}%
   \ifbool{thissectionrule}{%
-    \vspace{1.2pt}%
-    \hrule height 0.5pt width \textwidth\relax\nopagebreak
-    \vspace{2.2pt}%
+    \vspace{2pt}%
+    \hrule height 0.55pt width \textwidth\relax\nopagebreak
+    \vspace{4pt}%
   }{%
-    \vspace{1.8pt}%
+    \vspace{3pt}%
   }%
 }
 
 \newenvironment{cvsection}[2][false]{%
   \cvsectionheader[#1]{#2}%
 }{%
-  \vspace{1.2pt}%
+  \vspace{2pt}%
 }
 
 % --- Bullet Item List (Full Textwidth Spanning) ---
 \newenvironment{cvlist}{%
   \begin{itemize}[
-    leftmargin=11pt,
+    leftmargin=12pt,
     rightmargin=0pt,
-    itemsep=0.4pt,
+    itemsep=2pt,
     parsep=0pt,
-    topsep=0.8pt,
+    topsep=2pt,
     partopsep=0pt,
     label=\small\textbullet
   ]%
@@ -232,30 +232,30 @@
 
 % --- Experience & Project Entries (Full-Width \hfill Alignment) ---
 \newenvironment{cventry}[4]{%
-  \vspace{1.2pt}%
-  \noindent\textbf{#1} \hfill \textit{#4}\par\nopagebreak
+  \vspace{3.5pt}%
+  \noindent\textbf{#1} \hfill \textbf{#4}\par\nopagebreak
+  \vspace{1.5pt}%
   \noindent\textit{#2} \hfill \textit{#3}\par\nopagebreak
-  \vspace{-1.5pt}%
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cventrysimple}[4]{%
-  \vspace{1pt}%
-  \noindent\textbf{#1} \hfill \textit{#4}\par\nopagebreak
+  \vspace{3pt}%
+  \noindent\textbf{#1} \hfill \textbf{#4}\par\nopagebreak
+  \vspace{1.5pt}%
   \noindent\textit{#2} \hfill \textit{#3}\par
 }
 
 \newenvironment{cvproject}[2]{%
-  \vspace{1.5pt}%
-  \noindent\textbf{#1} \hfill \textit{#2}\par\nopagebreak
-  \vspace{-1.5pt}%
+  \vspace{3.5pt}%
+  \noindent #1 \ifstrempty{#2}{}{\hfill #2}\par\nopagebreak
   \begin{cvlist}%
 }{%
   \end{cvlist}%
 }
 
 \newcommand{\cvskill}[2]{%
-  \noindent\textbf{#1:} #2\par\vspace{1pt}%
+  \noindent\textbf{#1:} #2\par\vspace{2.5pt}%
 }
