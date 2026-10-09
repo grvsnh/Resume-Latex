@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: typst-community/setup-typst@v5
         with:
@@ -32,9 +34,12 @@ jobs:
         id: release
         run: |
           title="$(head -n 1 release-info.txt | tr -d '\r')"
+          git fetch --tags --force
+          last="$(git tag -l 'v[0-9]*' | sed 's/^v//' | sort -n | tail -n 1)"
+          tag="v$(( ${last:-0} + 1 ))"
           {
             echo "title=$title"
-            echo "tag=v1"
+            echo "tag=$tag"
             echo "body<<RELEASE_BODY"
             cat release-body.txt
             echo "RELEASE_BODY"
@@ -55,13 +60,8 @@ jobs:
           name: gaurav-singh.pdf
           path: gaurav-singh.pdf
 
-      - name: Reset v1 release
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Create release
         run: |
-          gh release delete v1 --yes --cleanup-tag 2>/dev/null || true
-          git tag -d v1 2>/dev/null || true
-          git push origin :refs/tags/v1 2>/dev/null || true
           git tag -a "${{ steps.release.outputs.tag }}" -m "Resume - ${{ steps.release.outputs.title }}"
           git push origin "${{ steps.release.outputs.tag }}"
 
