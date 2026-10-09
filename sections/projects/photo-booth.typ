@@ -3,7 +3,7 @@
     columns: (1fr, auto),
     column-gutter: 8pt,
     [#text(weight: "bold")[PhotoBooth] · #text(size: 9.2pt, fill: rgb("#555555"))[#emph[React, Three.js, GSAP, HTML5 Canvas]]],
-    [#link("https://github.com/grvsnh/photobooth")[#box(fill: rgb("#f3f3f3"), stroke: 0.5pt + black, radius: 2pt, inset: (x: 5pt, y: 2pt))[#text(size: 8.5pt, weight: "bold")[GitHub]]]],
+    [#link("https://github.com/grvsnh/photobooth")[_GitHub_]],
   )
   - Engineered a real-time interactive graphics application using Three.js and GSAP, implementing mathematically interpolated curtain simulations and physics-inspired animation pipelines.
   - Designed computational geometry and image-processing algorithms including AABB collision detection, procedural film grain synthesis, texture generation, and canvas-based photo compositing.
