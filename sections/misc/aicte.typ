@@ -1,0 +1,1 @@
+*AICTE Student Volunteer:* Contributed 80+ volunteer hours across AICTE-sponsored social empowerment programs; engaged 300+ students in environmental sustainability, civic responsibility, and literacy drives.

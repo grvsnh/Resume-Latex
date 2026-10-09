@@ -1,0 +1,5 @@
+#v(2pt)
+#link("https://github.com/grvsnh/photobooth")[*PhotoBooth*] · React, Three.js, GSAP, HTML5 Canvas #h(1fr) #link("https://github.com/grvsnh/photobooth")[GitHub] \
+• Engineered a real-time interactive graphics application using Three.js and GSAP, implementing mathematically interpolated curtain simulations and physics-inspired animation pipelines. \
+• Designed computational geometry and image-processing algorithms including AABB collision detection, procedural film grain synthesis, texture generation, and canvas-based photo compositing. \
+• Built a responsive React application integrating WebRTC camera APIs with GPU-accelerated rendering and optimized animation workflows for seamless performance across desktop and mobile devices.

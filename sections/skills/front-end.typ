@@ -1,0 +1,1 @@
+*Frontend & UI:* React, Next.js, Electron, Three.js, GSAP, HTML5 Canvas, WebGL, Streamlit

@@ -1,13 +1,1 @@
-### 🚀 Resume Release: AI Engineer
-
-A high-performance, single-page, ATS-optimized resume tailored specifically for **AI Engineering & Applied Machine Learning** roles.
-
-#### 📌 Highlights & Core Competencies
-- **Architecture & Modelling:** Computer Vision (CNNs, Grad-CAM, LAB Color Reconstruction), Multi-LLM Orchestration (Claude, GPT-4o, DeepSeek failovers), In-Browser Inference (TensorFlow.js, WebGL shaders).
-- **Core Stack:** Python, PyTorch, TensorFlow, OpenCV, FastAPI, Next.js, Docker, PostgreSQL, Redis.
-- **Featured Projects:**
-  - **Image Colorization with Deep Learning:** Dual-model CNN + ECCV pipeline with Streamlit, sub-120ms latency.
-  - **BrainScan:** Client-side MRI tumor classifier (94.6% accuracy) with real-time Grad-CAM saliency heatmaps.
-  - **Aiely:** Cross-platform desktop AI assistant with transparent HUD overlay, real-time audio/OCR streaming.
-  - **F1 Strategy Lab:** Telemetry analytics engine modeling dynamic tyre degradation at 10Hz with 88% predictive accuracy.
-- **Full-Page ATS Optimization:** 100% full-width page coverage, right-aligned dates & locations, clean 0.5pt horizontal section rules, and verified 1-page geometry.
+Single-page technical resume built with Typst.

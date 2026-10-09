@@ -1,0 +1,1 @@
+Computer Science undergraduate building production-oriented software across machine learning, computer vision, LLM applications, and web systems. Proficient in Python, PyTorch, TensorFlow, FastAPI, and modern JavaScript, with a focus on low-latency, interpretable, and reliable applications.

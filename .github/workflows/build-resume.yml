@@ -1,18 +1,8 @@
-name: Build and Release Resume PDF
+name: Build Resume
 
 on:
   push:
-    branches:
-      - main
-      - master
-    paths:
-      - '**.tex'
-      - '**.cls'
-      - 'links/**'
-      - 'sections/**'
-      - 'release-info.txt'
-      - 'release-body.txt'
-      - '.github/workflows/build-resume.yml'
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -22,132 +12,66 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v3
+      - uses: typst-community/setup-typst@v5
         with:
-          root_file: resume.tex
-          compiler: pdflatex
-          args: "-interaction=nonstopmode -halt-on-error"
+          typst-version: 0.15.1
 
-      - name: Read Release Metadata
-        id: release_meta
-        shell: bash
+      - name: Build PDF and preview
         run: |
-          INFO_FILE=""
-          for f in release-info.txt release_info.txt release-info release_info; do
-            if [ -f "$f" ]; then
-              INFO_FILE="$f"
-              break
-            fi
-          done
+          typst compile resume.typ resume.pdf --root .
+          typst compile resume.typ resume-page-{p}.png --format png --ppi 300 --root .
+          shopt -s nullglob
+          pages=(resume-page-*.png)
+          test "${#pages[@]}" -eq 1
+          mv "${pages[0]}" resume-preview.png
+          cp resume.pdf gaurav-singh.pdf
 
-          TITLE=""
-          if [ -n "$INFO_FILE" ]; then
-            TITLE="$(sed -n '1p' "$INFO_FILE" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
-          fi
-          if [ -z "$TITLE" ]; then
-            TITLE="AI Engineer"
-          fi
-
-          BODY_FILE=""
-          for f in release-body.txt release_body.txt release-body release_body; do
-            if [ -f "$f" ] && [ -s "$f" ]; then
-              BODY_FILE="$f"
-              break
-            fi
-          done
-
-          if [ -n "$BODY_FILE" ]; then
-            BODY="$(cat "$BODY_FILE")"
-          elif [ -n "$INFO_FILE" ]; then
-            BODY="$(tail -n +2 "$INFO_FILE")"
-          else
-            BODY=""
-          fi
-
-          SLUG="$(printf '%s' "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//; s/-$//')"
-          [ -z "$SLUG" ] && SLUG="ai-engineer"
-
-          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
-          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+      - name: Read release metadata
+        id: release
+        run: |
+          title="$(head -n 1 release-info.txt | tr -d '\r')"
           {
-            echo 'body<<RELEASE_BODY'
-            printf '%s\n' "$BODY"
-            echo 'RELEASE_BODY'
+            echo "title=$title"
+            echo "tag=v1"
+            echo "body<<RELEASE_BODY"
+            cat release-body.txt
+            echo "RELEASE_BODY"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Prepare Named Resume PDF
-        run: cp resume.pdf gaurav-singh.pdf
-
-      - name: Verify Single-Page and Generate Preview
+      - name: Commit preview
         run: |
-          sudo apt-get update && sudo apt-get install -y poppler-utils
-          PAGE_COUNT=$(pdfinfo resume.pdf | awk '/^Pages:/ {print $2}')
-          echo "Detected page count: $PAGE_COUNT"
-          if [ "$PAGE_COUNT" -ne 1 ]; then
-            echo "::error::Resume compilation resulted in $PAGE_COUNT pages. Expected exactly 1 page!"
-            exit 1
-          fi
-          pdftoppm -png -r 300 -singlefile resume.pdf resume-preview
-
-      - name: Commit and Push Resume Preview Image & Update README
-        run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          TIMESTAMP=$(date +%s)
-          sed -i -E "s|(<img[^>]*src=[\"'])resume-preview\.png(\?[^\"']*)?([\"'])|\1resume-preview.png?v=${TIMESTAMP}\3|g" README.md
-          git add resume-preview.png README.md
-          if git diff --staged --quiet; then
-            echo "No changes to resume preview image or README."
-          else
-            git commit -m "chore: update resume preview image and README [skip ci]"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resume-preview.png
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update resume preview [skip ci]"
             git push
           fi
 
-      - name: Upload PDF Artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: gaurav-singh-pdf
+          name: gaurav-singh.pdf
           path: gaurav-singh.pdf
-          overwrite: true
 
-      - name: Generate Release Tag
-        id: tag_meta
+      - name: Reset v1 release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch --tags --force 2>/dev/null || true
-          LAST_TAG=$(git tag -l 'v[0-9]*' | sed 's/^v//' | sort -n | tail -1)
-          if [ -z "$LAST_TAG" ]; then
-            NEXT_NUM=1
-          else
-            NEXT_NUM=$((LAST_TAG + 1))
-          fi
-          TAG_NAME="v${NEXT_NUM}"
-          git tag -a "$TAG_NAME" -m "Resume - ${{ steps.release_meta.outputs.title }}"
-          git push origin "$TAG_NAME"
-          echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+          gh release delete v1 --yes --cleanup-tag 2>/dev/null || true
+          git tag -d v1 2>/dev/null || true
+          git push origin :refs/tags/v1 2>/dev/null || true
+          git tag -a "${{ steps.release.outputs.tag }}" -m "Resume - ${{ steps.release.outputs.title }}"
+          git push origin "${{ steps.release.outputs.tag }}"
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
+      - uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag_meta.outputs.tag_name }}
-          name: Resume - ${{ steps.release_meta.outputs.title }}
-          body: |
-            ${{ steps.release_meta.outputs.body }}
-
-            - **Release:** `${{ steps.tag_meta.outputs.tag_name }}`
-            - **Commit:** ${{ github.sha }}
-            - **Trigger:** `${{ github.event_name }}` on `${{ github.ref_name }}`
-          draft: false
-          prerelease: false
+          tag_name: ${{ steps.release.outputs.tag }}
+          name: Resume - ${{ steps.release.outputs.title }}
+          body: ${{ steps.release.outputs.body }}
           files: |
             gaurav-singh.pdf
             resume-preview.png
-          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

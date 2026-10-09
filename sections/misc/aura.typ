@@ -1,0 +1,1 @@
+*Founder, AURA:* Founded and scaled a student technical association to 150+ active members; organized 8+ hands-on technical workshops, peer hackathons, and collaborative problem-solving sessions. \

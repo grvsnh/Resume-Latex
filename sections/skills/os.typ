@@ -1,0 +1,1 @@
+*Operating Systems:* Linux (Arch Linux, Ubuntu, Debian), macOS, Windows
